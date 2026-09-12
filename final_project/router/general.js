@@ -2,6 +2,7 @@ const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
+const axios = require('axios');
 const public_users = express.Router();
 
 
@@ -29,7 +30,7 @@ public_users.get('/', function (req, res) {
 public_users.get('/isbn/:isbn', function (req, res) {
   //Write your code here
   const isbn = req.params.isbn;
-  if (!books[isbn]) { return res.status(404).json({ message: "No Book Found!!" }); }
+  if (!books[isbn]) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
   return res.status(200).json({ [isbn]: books[isbn] });
 });
 
@@ -38,7 +39,7 @@ public_users.get('/author/:author', function (req, res) {
   //Write your code here
   const author_name = req.params.author;
   const find_author = Object.entries(books).find(([key, item]) => item.author === author_name);
-  if (!find_author) { return res.status(404).json({ message: "No Book Found!!" }); }
+  if (!find_author) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
   return res.status(200).json({ [find_author[0]]: find_author[1] });
 });
 
@@ -47,7 +48,7 @@ public_users.get('/title/:title', function (req, res) {
   //Write your code here
   const name_title = req.params.title;
   const find_author = Object.entries(books).find(([key, item]) => item.title === name_title);
-  if (!find_author) { return res.status(404).json({ message: "No Book Found!!" }); }
+  if (!find_author) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
   return res.status(200).json({ [find_author[0]]: find_author[1] });
 });
 
@@ -58,4 +59,38 @@ public_users.get('/review/:isbn', function (req, res) {
   return res.status(300).json({ message: "Yet to be implemented" });
 });
 
+
+
+const getAllBooks = async () => {
+
+  const response = await axios.get("http://localhost:5000/");
+  return response.data;
+
+}
+const getbooksbyISBN = async (isbn) => {
+
+  const response = await axios.get("http://localhost:5000/isbn/" + isbn);
+
+  return response.data;
+
+}
+
+const getbooksbyauthor = async (author) => {
+
+  const response = await axios.get("http://localhost:5000/author/" + author);
+
+  return response.data;
+
+}
+
+const getbooksbytitle = async (title) => {
+
+  const response = await axios.get("http://localhost:5000/title/" + title);
+
+  return response.data;
+
+}
+
+
 module.exports.general = public_users;
+module.exports.asyncApi = { getAllBooks, getbooksbyISBN, getbooksbyauthor, getbooksbytitle }
