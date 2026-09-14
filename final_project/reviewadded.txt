@@ -19,6 +19,18 @@ Review output:
 {"message":"Review Added Successfully!!"}
 
 
+check Review command:
+
+curl localhost:5000/review/1
+
+
+check Review output:
+
+
+{"alice":"This book is excellent"}
+
+
+
 Test 2: User 1 modifies the review for the same ISBN
 
 curl -b user1-cookies.txt --request PUT localhost:5000/customer/auth/review/1?rev
@@ -26,6 +38,16 @@ iew=I%20updated%20my%20review
 
 Output:
 {"message":"Review updated successfully"}
+
+
+check Review command:
+
+curl localhost:5000/review/1
+
+
+check Review output:
+
+{"alice":"I updated my review"}
 
 
 
@@ -47,3 +69,13 @@ iew=This%20is%20another%20user%20review
 
 Review output:
 {"message":"Review Added Successfully!!"}
+
+
+check Review command:
+
+curl localhost:5000/review/1
+
+
+check Review output:
+
+{"alice":"I updated my review","bob":"This is another user review"}

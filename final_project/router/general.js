@@ -22,7 +22,7 @@ public_users.get('/', function (req, res) {
   //Write your code here
   const book_arr = Object.entries(books);
   if (book_arr.length === 0) { return res.status(404).json({ message: "No Book Found!!" }); }
-  res.setHeader('Content-Type', 'application/json');
+  // res.setHeader('Content-Type', 'application/json');
   return res.status(200).send(JSON.stringify(books, null, 2));
 
   // return res.status(300).json({ message: "Yet to be implemented" });
@@ -40,18 +40,22 @@ public_users.get('/isbn/:isbn', function (req, res) {
 public_users.get('/author/:author', function (req, res) {
   //Write your code here
   const author_name = req.params.author;
-  const find_author = Object.entries(books).find(([key, item]) => item.author === author_name);
-  if (!find_author) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
-  return res.status(200).json({ [find_author[0]]: find_author[1] });
+  const find_author = Object.values(books).filter((item) => {
+    return item.author === author_name;
+  });
+
+  if (find_author.length === 0) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
+  //res.setHeader('Content-Type', 'application/json');
+  return res.send(JSON.stringify(find_author, null, 2));
 });
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
   //Write your code here
   const name_title = req.params.title;
-  const find_author = Object.entries(books).find(([key, item]) => item.title === name_title);
-  if (!find_author) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
-  return res.status(200).json({ [find_author[0]]: find_author[1] });
+  const find_title = Object.values(books).filter(item => item.title === name_title);
+  if (find_title.length === 0) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
+  return res.send(JSON.stringify(find_title, null, 2));
 });
 
 
@@ -61,7 +65,7 @@ public_users.get('/review/:isbn', function (req, res) {
   const { isbn } = req.params;
   if (!books[isbn]) { return res.status(404).json({ message: "No Book(s) Found!!" }) }
   const reviews = books[isbn].reviews;
-  if (Object.keys(reviews).length === 0) { return res.status(404).json({ message: "No Reviews Found!!" }); }
+  if (Object.keys(reviews).length === 0) { return res.status(404).json({ message: "No reviews found for this book." }); }
   return res.status(200).json(reviews);
 });
 

@@ -28,7 +28,7 @@ Check remaining reviews:
 
 curl localhost:5000/review/1
 
-{"message":"No Reviews Found!!"}
+{"message":"No reviews found for this book."}
 
 
 Test 4: user 1 tries to delete a review when he/she has none
