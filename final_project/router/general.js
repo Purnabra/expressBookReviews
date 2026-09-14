@@ -126,7 +126,6 @@ public_users.get('/fetch-books-author/:author', (req, res) => {
 
 public_users.get('/fetch-books-title/:title', async (req, res) => {
   const { title } = req.params;
-  console.log(title);
   getbooksbytitle(title).then((data) => { res.send(data); }).catch(err => res.send(err.response.data));
 
 })
@@ -134,4 +133,4 @@ public_users.get('/fetch-books-title/:title', async (req, res) => {
 
 
 module.exports.general = public_users;
-//module.exports.asyncApi = { getAllBooks, getbooksbyISBN, getbooksbyauthor, getbooksbytitle }
+
