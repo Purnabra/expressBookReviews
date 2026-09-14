@@ -20,8 +20,13 @@ const authenticatedUser = (username, password) => { //returns boolean
 regd_users.post("/login", (req, res) => {
   //Write your code here
   const { username, password } = req.body;
-  if (!username && !password) { return res.status(404).json({ message: "Enter Username & Password" }); }
+  if (!username || !password) { return res.status(404).json({ message: "Username And Password Are Required" }); }
+
+  if (username.trim() === '' || password.trim() === '') { return res.status(404).json({ message: "Enter Username & Password" }); }
+
   if (!authenticatedUser(username, password)) { return res.status(401).json({ message: "Invalid Credentials" }); }
+
+
   const payload = { sub: password }
 
   const accessToken = jwt.sign(payload, "access", { expiresIn: 60 * 60 });
@@ -40,8 +45,12 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   const username = req.session.authorization["username"];
   if (!review) { return res.status(400).json({ message: "Review is Missing in Query Params!!" }) }
   if (!books[isbn]) { return res.status(404).json({ message: "No Book(s) Found!!" }); }
+  let message = "Review Added Successfully!!";
+  if (books[isbn].reviews[[username]]) { message = "Review Updated Successfully!!"; }
+
   books[isbn].reviews[[username]] = review;
-  return res.status(200).json({ message: "Review Added Successfully!!" });
+
+  return res.status(200).json({ message: message });
 
 });
 //delete a book review

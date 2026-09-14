@@ -1,0 +1,39 @@
+Test 1: Successful login
+
+curl --request POST localhost:5000/customer/login --header "Conten
+t-Type":"application/json" --data '{"username":"alice","password":"pass@123"}'
+
+{"message":"You Are Logged In!!"}
+
+
+Test 2: Incorrect password
+
+curl --request POST localhost:5000/customer/login --header "Conten
+t-Type":"application/json" --data '{"username":"alice","password":"pass@1234"}'
+
+{"message":"Invalid Credentials"}
+
+
+Test 3: Unregistered username
+
+curl --request POST localhost:5000/customer/login --header "Conten
+t-Type":"application/json" --data '{"username":"alice12","password":"pass@123"}'
+
+{"message":"Invalid Credentials"}
+
+
+Test 4: Missing username
+
+curl --request POST localhost:5000/customer/login --header "Conten
+t-Type":"application/json" --data '{"password":"pass@123"}'
+
+{"message":"Username And Password Are Required"}
+
+
+
+Test 5: Missing password
+
+curl --request POST localhost:5000/customer/login --header "Conten
+t-Type":"application/json" --data '{"username":"alice"}'
+
+{"message":"Username And Password Are Required"}

@@ -1,0 +1,38 @@
+Test 1:check all reviwews:
+
+curl localhost:5000/review/1
+
+{"alice":"I updated my review","bob":"This is another user review"}
+
+Test 2: user 1 deletes his/her own reviews
+
+curl -b user1-cookies.txt --request DELETE localhost:5000/customer/auth/review/1
+
+{"message":"Review Deleted Successfully!!"}
+
+Check remaining reviews:
+
+curl localhost:5000/review/1
+
+{"bob":"This is another user review"}
+
+
+Test 3: user 2 deletes his/her own review for the same ISBN
+
+curl -b user2-cookies.txt --request DELETE localhost:5000/customer/auth/review/1
+
+{"message":"Review Deleted Successfully!!"}
+
+
+Check remaining reviews:
+
+curl localhost:5000/review/1
+
+{"message":"No Reviews Found!!"}
+
+
+Test 4: user 1 tries to delete a review when he/she has none
+
+curl -b user1-cookies.txt --request DELETE localhost:5000/customer/auth/review/1
+
+{"message":"No review found for the specified user."}

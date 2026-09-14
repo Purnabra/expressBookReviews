@@ -1,0 +1,34 @@
+Test 1: Successful registration
+
+curl --request POST localhost:5000/register --header "Content-Type":"application/
+json" --data '{"username":"alice","password":"pass@123"}'
+
+{"message":"User Registered Succesfully!!"}
+
+curl --request POST localhost:5000/register --header "Content-Type":"application/
+json" --data '{"username":"bob","password":"pass@1234"}'
+
+{"message":"User Registered Succesfully!!"}
+
+Test 2: Existing username
+
+curl --request POST localhost:5000/register --header "Content-Type":"application/
+json" --data '{"username":"alice","password":"pass@123"}'
+
+{"message":"Username Already Exists!!"}
+
+
+Test 3: Missing username
+
+curl --request POST localhost:5000/register --header "Content-Type":"application/
+json" --data '{"password":"pass@123"}'
+
+{"message":"Username And Password Are Required"}
+
+
+Test 4: Missing password
+
+curl --request POST localhost:5000/register --header "Content-Type":"application/
+json" --data '{"username":"alice"}'
+
+{"message":"Username And Password Are Required"}

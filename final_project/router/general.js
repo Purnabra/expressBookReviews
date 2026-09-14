@@ -9,6 +9,8 @@ const public_users = express.Router();
 public_users.post("/register", (req, res) => {
   //Write your code here
   const { username, password } = req.body;
+  //console.log(req.body);
+  if (!username || !password) { return res.status(403).json({ message: "Username And Password Are Required" }) }
   if (isValid(username)) { return res.status(404).json({ message: "Username Already Exists!!" }); }
   users.push({ username: username, password: password })
   //return res.status(200).json(users);
@@ -56,7 +58,11 @@ public_users.get('/title/:title', function (req, res) {
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  const { isbn } = req.params;
+  if (!books[isbn]) { return res.status(404).json({ message: "No Book(s) Found!!" }) }
+  const reviews = books[isbn].reviews;
+  if (Object.keys(reviews).length === 0) { return res.status(404).json({ message: "No Reviews Found!!" }); }
+  return res.status(300).json(reviews);
 });
 
 
