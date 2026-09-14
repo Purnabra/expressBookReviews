@@ -62,7 +62,7 @@ public_users.get('/review/:isbn', function (req, res) {
   if (!books[isbn]) { return res.status(404).json({ message: "No Book(s) Found!!" }) }
   const reviews = books[isbn].reviews;
   if (Object.keys(reviews).length === 0) { return res.status(404).json({ message: "No Reviews Found!!" }); }
-  return res.status(300).json(reviews);
+  return res.status(200).json(reviews);
 });
 
 
@@ -97,6 +97,37 @@ const getbooksbytitle = async (title) => {
 
 }
 
+public_users.get('/fetch-books-all', async (req, res) => {
+  getAllBooks().then((data) => { res.send(data); }).catch(err => res.send(err.response.data));
+
+})
+
+
+public_users.get('/fetch-books-isbn/:isbn', (req, res) => {
+  //  let data;
+  const { isbn } = req.params;
+  getbooksbyISBN(isbn).then((data) => { res.send(data); }).catch(err => res.send(err.response.data));
+
+
+})
+
+
+public_users.get('/fetch-books-author/:author', (req, res) => {
+
+  const { author } = req.params;
+  getbooksbyauthor(author).then((data) => { res.send(data); }).catch(err => res.send(err.response.data));
+
+})
+
+
+public_users.get('/fetch-books-title/:title', async (req, res) => {
+  const { title } = req.params;
+  console.log(title);
+  getbooksbytitle(title).then((data) => { res.send(data); }).catch(err => res.send(err.response.data));
+
+})
+
+
 
 module.exports.general = public_users;
-module.exports.asyncApi = { getAllBooks, getbooksbyISBN, getbooksbyauthor, getbooksbytitle }
+//module.exports.asyncApi = { getAllBooks, getbooksbyISBN, getbooksbyauthor, getbooksbytitle }

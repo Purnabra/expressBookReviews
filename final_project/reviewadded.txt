@@ -2,45 +2,48 @@ Test 1: User 1 adds a review
 
 Login command:
 
-curl -c user1-cookies.txt -X POST http://localhost:5000/customer/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"alice","password":"password123"}'
+curl -c user1-cookies.txt --request POST localhost:5000/customer/login --header "
+Content-Type":"application/json" --data '{"username":"alice","password":"pass@123"}'
+
 
 Login output:
-<paste the complete login output here>
+{"message":"You Are Logged In!!"}
 
 
 Review command:
 
-curl -b user1-cookies.txt -X PUT "http://localhost:5000/customer/auth/review/9781234567890?review=This%20book%20is%20excellent"
+curl -b user1-cookies.txt --request PUT localhost:5000/customer/auth/review/1?rev
+iew=This%20book%20is%20excellent
 
 Review output:
-<paste the complete review output here>
+{"message":"Review Added Successfully!!"}
 
 
 Test 2: User 1 modifies the review for the same ISBN
 
-curl -b user1-cookies.txt -X PUT "http://localhost:5000/customer/auth/review/9781234567890?review=I%20updated%20my%20review"
+curl -b user1-cookies.txt --request PUT localhost:5000/customer/auth/review/1?rev
+iew=I%20updated%20my%20review
 
 Output:
-<paste the complete output here>
+{"message":"Review updated successfully"}
+
 
 
 Test 3: User 2 adds a separate review for the same ISBN
 
 Login command:
 
-curl -c user2-cookies.txt -X POST http://localhost:5000/customer/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"bob","password":"password456"}'
+curl -c user2-cookies.txt --request POST localhost:5000/customer/login --header "
+Content-Type":"application/json" --data '{"username":"bob","password":"pass@1234"}'
 
 Login output:
-<paste the complete login output here>
+{"message":"You Are Logged In!!"}
 
 
 Review command:
 
-curl -b user2-cookies.txt -X PUT "http://localhost:5000/customer/auth/review/9781234567890?review=This%20is%20another%20user%20review"
+curl -b user2-cookies.txt --request PUT localhost:5000/customer/auth/review/1?rev
+iew=This%20is%20another%20user%20review
 
 Review output:
-<paste the complete output here>
+{"message":"Review Added Successfully!!"}
